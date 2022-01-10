@@ -2,13 +2,17 @@
   padding: 0;
   margin: 0;
 }
+html,
+body {
+  font-size: 16px;
+}
 .wrapper {
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
 }
 a {
-  text-decoration: none;
+  text-decoration: none !important;
   color: none;
 }
 
@@ -16,12 +20,17 @@ input:focus {
   outline: none;
 }
 
+.content {
+  padding-top: 60px;
+}
+
+/* 헤더 */
+
 .main-header {
   width: 100%;
-  /* background-color: aqua; */
 }
 .main-header-wrap {
-  padding: 20px 30px;
+  padding: 20px 0;
 }
 .main-header-container {
   display: flex;
@@ -76,4 +85,66 @@ input:focus {
 }
 .header-br .btn02:hover {
   background-color: #e8e8e8;
+}
+
+/* 그리드 리스트 */
+
+.main-content .card {
+  border: none;
+}
+.main-content .card .card-body {
+  padding: 1rem 0;
+  color: #222;
+}
+.main-content .card .img-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.main-content .card .img-wrap img {
+  transition: all 0.2s ease-in-out;
+}
+
+.main-content .card .img-wrap:hover img {
+  transform: scale(1.1);
+}
+
+.lecture-like {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.lecture-like i {
+  color: white;
+  font-size: 30px;
+}
+
+.main-content .card .card-title {
+  font-size: 0.6875rem;
+}
+.main-content .card .card-text {
+  font-size: 14px;
+}
+.main-content .card .liked {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  color: #a2a2a2;
+  font-size: 11px;
+}
+.main-content .card .liked i {
+  padding-right: 5px;
+}
+.main-content .card .card-price {
+  font-size: 0.8125rem;
+  font-weight: bold;
+}
+
+/* 마이페이지 */
+
+.mp-title {
+  margin-bottom: 60px;
+}
+.mp-title h2 {
+  font-weight: bold;
 }
