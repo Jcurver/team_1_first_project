@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Webpage Title -->
+    <title>Mini Project Practice</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- mystyle.css -->
+    <!--    <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">-->
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <style>
+        .post_write_wrap_outer {
+            padding: 24px;
+            flex: 1 1 0%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .post_write_wrap {
+            width: 100%;
+            max-width: 376px;
+        }
+
+        .post_write_title_text {
+            font-weight: bold;
+            font-size: 32px;
+            line-height: 44px;
+            color: rgb(58, 58, 58);
+        }
+
+        .post_write_form {
+            margin-bottom: 12px;
+        }
+
+        .form_group_label {
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 20px;
+            letter-spacing: -0.15px;
+            margin: 0px 0px 4px;
+            color: rgb(58, 58, 58);
+        }
+
+        .input_container {
+            margin-top: 2px;
+            border-radius: 3px;
+        }
+
+        .post_write_input {
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 20px;
+            letter-spacing: -0.15px;
+            margin: 0px;
+            border: 1px solid rgb(239, 239, 239);
+            background-color: white;
+            height: 48px;
+            flex: 1 1 auto;
+            width: 100%;
+            color: rgb(26, 26, 26);
+            box-sizing: border-box;
+            padding: 0px 16px;
+        }
+
+        .post_write_button {
+            width: 100%;
+            margin: 16px 0px;
+            vertical-align: middle;
+            border-radius: 3px;
+            color: rgb(255, 255, 255);
+            background-color: rgb(255, 86, 0);
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: -0.2px;
+            padding: 0px 20px;
+            height: 48px;
+            cursor: pointer;
+            text-decoration-line: none;
+            border: none;
+        }
+    </style>
+    <script>
+        function post() {
+            let class_title = $("#class_title_input").val();
+            let class_url = $("#class_url_input").val();
+            let class_image = $("#class_image").val();
+            let class_tutor = $("#class_tutor").val();
+            let class_desc = $("#class_desc").val();
+            let class_price = $("#class_price").val();
+            console.log(class_title, class_url, class_image, class_tutor, class_desc, class_price);
+
+        }
+    </script>
+</head>
+<body>
+<div class="post_write_wrap_outer">
+    <div class="post_write_wrap">
+        <!--  페이지 제목  -->
+        <div class="post_write_title">
+            <h2 class="post_write_title_text">포스트 작성</h2>
+        </div>
+        <!--  인풋 모음  -->
+        <div class="post_write_form_group">
+            <!-- 클래스 제목 -->
+            <div class="post_write_form">
+                <label class="form_group_label">클래스 제목</label>
+                <div class="input_container">
+                    <input class="post_write_input" id="class_title_input">
+                </div>
+            </div>
+            <!-- 강의 url -->
+            <div class="post_write_form">
+                <label class="form_group_label">강의 url</label>
+                <div class="input_container">
+                    <input class="post_write_input" id="class_url_input">
+                </div>
+            </div>
+            <!-- 강의 이미지 -->
+            <div class="post_write_form">
+                <label class="form_group_label">강의 이미지</label>
+                <div class="input_container">
+                    <input class="post_write_input" id="class_image">
+                </div>
+            </div>
+            <!-- 튜터 -->
+            <div class="post_write_form">
+                <label class="form_group_label">튜터</label>
+                <div class="input_container">
+                    <input class="post_write_input" id="class_tutor">
+                </div>
+            </div>
+            <!-- 클래스 정보 -->
+            <div class="post_write_form">
+                <label class="form_group_label">클래스 정보</label>
+                <div class="input_container">
+                    <input class="post_write_input" id="class_desc">
+                </div>
+            </div>
+            <!-- 가격 -->
+            <div class="post_write_form">
+                <label class="form_group_label">가격</label>
+                <div class="input_container">
+                    <input class="post_write_input" id="class_price">
+                </div>
+            </div>
+        </div>
+        <!-- 포스트 작성 버튼 -->
+        <button class="post_write_button" onclick="post()">
+            <span class="post_write_button_text">포스트 작성</span>
+        </button>
+    </div>
+</div>
+</body>
+</html>
