@@ -16,7 +16,16 @@ SECRET_KEY = 'SPARTA'
 client = MongoClient('localhost', 27017)
 db = client.hanghae99_miniproject1
 
+@app.route('/')
+def mainpage():
+    return render_template('index.html')
 
+@app.route('/mypage')
+def mypage():
+    return render_template('mypage.html')
+@app.route('/api/user/login')
+def login():
+    return render_template('login.html')
 @app.route('/post_write')
 def post_write():
     return render_template('post_write.html')
