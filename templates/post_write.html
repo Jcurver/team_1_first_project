@@ -101,7 +101,29 @@
             let class_tutor = $("#class_tutor").val();
             let class_desc = $("#class_desc").val();
             let class_price = $("#class_price").val();
-            console.log(class_title, class_url, class_image, class_tutor, class_desc, class_price);
+
+            console.log("class_title", class_title);
+            console.log("class_url", class_url);
+            console.log("class_image", class_image);
+            console.log("class_tutor", class_tutor);
+            console.log("class_desc", class_desc);
+            console.log("class_price", class_price);
+
+            $.ajax({
+                type: "POST",
+                url: "/api/post/write",
+                data: {
+                    class_title_give: class_title,
+                    class_url_give: class_url,
+                    class_image_give: class_image,
+                    class_tutor_give: class_tutor,
+                    class_desc_give: class_desc,
+                    class_price_give: class_price,
+                },
+                success: function (response) {
+                    console.log(response);
+                }
+            })
         }
     </script>
 </head>
