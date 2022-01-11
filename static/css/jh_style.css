@@ -12,6 +12,17 @@
   position: relative;
   overflow: hidden;
   border-radius: 10px;
+  width: 100%;
+  height: 200px;
+}
+
+.main-content .card .img-wrap .img-wrap-a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .main-content .card .img-wrap img {
   transition: all 0.2s ease-in-out;
@@ -35,11 +46,24 @@
   font-size: 0.6875rem;
 }
 .main-content .card .card-title {
+  width: 100%;
   font-size: 1.125rem;
   font-weight: bold;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .main-content .card .card-text {
   font-size: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  width: 100%;
+  height: 60px;
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .main-content .card .liked {
   display: flex;
