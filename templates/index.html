@@ -68,42 +68,42 @@
             <div class="main-content">
                 <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 g-4">
                     {% for class in classes %}
-                    <div class="col">
-                        <div class="card h-100">
-                            <div class="img-wrap">
-                                <a href="{{ class.class_url }}" class="img-wrap-a">
-                                    <img
-                                            src="{{ class.class_image }}"
-                                            class="card-img-top"
-                                            alt="..."
-                                    />
-                                </a>
-                                <a href="" class="lecture-like">
-                                    {% if class.is_BookMarked %}
-                                    <i class="xi-heart"></i>
-                                    {% else %}
-                                    <i class="xi-heart-o"></i>
-                                    {% endif %}
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="img-wrap">
+                                    <a href="{{ class.class_url }}" class="img-wrap-a">
+                                        <img
+                                                src="{{ class.class_image }}"
+                                                class="card-img-top"
+                                                alt="..."
+                                        />
+                                    </a>
+                                    <a href="" class="lecture-like">
+                                        {% if class.is_BookMarked %}
+                                            <i class="xi-heart"></i>
+                                        {% else %}
+                                            <i class="xi-heart-o"></i>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                <a href="" class="card-body">
+                                    <h5 class="card-name">{{ class.class_instructor }}</h5>
+                                    <h6 class="card-title">{{ class.title }}</h6>
+                                    <p class="card-text">
+                                        {{ class.class_desc }}
+                                    </p>
+                                    <p class="liked">
+                                        {% if class.is_Liked %}
+                                            <i class="xi-heart" style="color:pink"></i>
+                                        {% else %}
+                                            <i class="xi-heart"></i>
+                                        {% endif %}
+                                        <span>{{ class.like_number }}</span>
+                                    </p>
+                                    <p class="card-price">월 {{ class.class_price }}원</p>
                                 </a>
                             </div>
-                            <a href="" class="card-body">
-                                <h5 class="card-name">{{ class.class_instructor }}</h5>
-                                <h6 class="card-title">{{ class.title }}</h6>
-                                <p class="card-text">
-                                    {{ class.class_desc }}
-                                </p>
-                                <p class="liked">
-                                    {% if class.is_Liked %}
-                                    <i class="xi-heart" style="color:pink"></i>
-                                    {% else %}
-                                    <i class="xi-heart"></i>
-                                    {% endif %}
-                                    <span>{{ class.like_number }}</span>
-                                </p>
-                                <p class="card-price">월 {{ class.class_price }}원</p>
-                            </a>
                         </div>
-                    </div>
 
                     {% endfor %}
                     <div class="col">
