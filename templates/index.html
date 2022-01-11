@@ -26,25 +26,6 @@
 
     <!-- js -->
     <script src="../static/js/main.js"></script>
-    <!-- <script>
-        function to_search() {
-            let search_give = $("#hs-input").val();
-
-            console.log("searching", search_give);
-            $.ajax({
-                type: "POST",
-                url: "/search",
-                data: {
-                    search_receive: search_give,
-                },
-                success: function (response) {
-                    console.log(response);
-                }
-            })
-
-            window.location.href = "/search"
-        };
-    </script> -->
 </head>
 
 <body>
@@ -57,11 +38,11 @@
                             <h1 class="logo">Logo</h1>
                         </a>
                         <div class="header-search">
-                            <form method="POST" action="/search">
+                            <form method="GET" action="/search">
                                 <input type="text" id="hs-input" name="search_give" value=""
                                     placeholder="찾으시는 취미가 있으신가요?" />
-                                <label for="search_give"></label>
-                                <button type="button" onclick="to_search()">
+                                <label for="hs-input"></label>
+                                <button type="submit">
                                     <i class="xi-search"></i>
                                 </button>
                             </form>
@@ -94,7 +75,7 @@
                                 </div>
                                 <a href="" class="card-body">
                                     <h5 class="card-name">{{ class.class_instructor }}</h5>
-                                    <h6 class="card-title">{{ class.title }}</h6>
+                                    <h6 class="card-title">{{ class.class_title }}</h6>
                                     <p class="card-text">
                                         {{ class.class_desc }}
                                     </p>

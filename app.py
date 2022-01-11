@@ -21,11 +21,6 @@ db = client.db_hanghae99_miniproject1
 def mainpage():
     classes = list(db.classes.find({}, {"_id": False}))
     return render_template('index.html', classes=classes)
-# 검색 API
-def main_search(search_give = None):
-    return render_template('search.html', search_give=search_give)
-    
-
 
 @app.route('/mypage')
 def mypage():
@@ -151,18 +146,34 @@ def posting():
 
 # jhmael-----------------------------------
 # [검색 API]
-@app.route('/search', methods=['GET','POST'])
-def search(search_give=None):
-    if request.method == 'POST'
-    # 검색 데이터
-    search_receive = request.form['search_give']
-    search_receive = str(search_receive)
-    print(search_receive)
-    
-    return render_template('search.html')
+# @app.route('/search', methods=['GET','POST'])
 # def search():
-#     return render_template('search.html')
+#     if request.method == 'POST':
+#         search_receive = request.form['search_give']
+#         search_receive = str(search_receive)
+#         return render_template('/search.html').format(search_receive)
+#     elif request.method == 'GET':
+#         search_receive = request.args.get('search_give')
+#         search_receive = str(search_receive)
+#         return "GET으로 전달된 데이터({})".format(search_receive)
+    
+@app.route('/search', methods=['GET'])
+# def search():
+#     search_receive = request.args.get('search_give')
+#     search_receive = str(search_receive)
+#     return render_template('/search.html').format(search_receive)
 
+def search_result():
+    search_receive = request.args.get('search_give')
+    result = list(db.classes.find({'class_title' : search_receive}, {"_id": False}))
+    # print(search_receive)
+    # print(result)
+    # if search_receive != "":
+    #     return render_template('search.html', result=result, search_receive=search_receive ).format(search_receive)
+    # elif search_receive == "":
+    #     return jsonify({'msg' : '검색어를 입력해주세요'})
+    return render_template('search.html', result=result, search_receive=search_receive ).format(search_receive)
+    
 
 if __name__ == '__main__':
     app.run('0.0.0.0',port=5000, debug=True)
