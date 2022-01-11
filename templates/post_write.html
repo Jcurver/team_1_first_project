@@ -25,6 +25,25 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAa3qmHVfZaCOc0TwIZcoLSejCt15qGPfM",
+            authDomain: "hanghae99-round5-miniproject1.firebaseapp.com",
+            projectId: "hanghae99-round5-miniproject1",
+            storageBucket: "hanghae99-round5-miniproject1.appspot.com",
+            messagingSenderId: "1073154554054",
+            appId: "1:1073154554054:web:9c8100143ef366e378bfc7",
+            measurementId: "G-PNS33VEGSW"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
 
     <style>
         .post_write_wrap_outer {
@@ -87,34 +106,66 @@
         function post() {
             let class_title = $("#class_title_input").val();
             let class_url = $("#class_url_input").val();
-            {#let class_image = $("#class_image").val();#}
             let class_image = $("#file")[0].files[0];
             let class_tutor = $("#class_tutor").val();
             let class_desc = $("#class_desc").val();
             let class_price = $("#class_price").val();
 
-            console.log("class_title", class_title);
-            console.log("class_url", class_url);
-            console.log("class_image", class_image);
-            console.log("class_tutor", class_tutor);
-            console.log("class_desc", class_desc);
-            console.log("class_price", class_price);
+            if (!class_title) {
+                window.alert("클래스 제목을 입력해주세요.");
+            } else if (!class_url) {
+                window.alert("클래스 url을 입력해주세요.");
+            } else if (!class_image) {
+                window.alert("클래스 이미지를 업로드해주세요.");
+            } else if (!class_tutor) {
+                window.alert("클래스 튜터를 입력해주세요.");
+            } else if (!class_desc) {
+                window.alert("클래스 정보를 입력해주세요.");
+            } else if (!class_price) {
+                window.alert("클래스 가격을 입력해주세요.");
+            } else {
+                // Firebase Storage에 이미지 업로드하고 url 받아오기
+                const storage = firebase.storage();
+                var storageRef = storage.ref();
+                var class_image_path = storageRef.child("class_image/" + `${class_image.name} +${Date.now()}`);
+                var save_class_image = class_image_path.put(class_image);
+                save_class_image.on('state_changed',
+                    // 변화시 동작하는 함수
+                    null,
+                    //에러시 동작하는 함수
+                    (error) => {
+                        console.error('실패사유는', error);
+                    },
+                    // 성공시 동작하는 함수
+                    () => {
+                        save_class_image.snapshot.ref.getDownloadURL().then((class_image_url) => {
+                            console.log("class_title", class_title);
+                            console.log("class_url", class_url);
+                            console.log("class_image", class_image_url);
+                            console.log("class_tutor", class_tutor);
+                            console.log("class_desc", class_desc);
+                            console.log("class_price", class_price);
 
-            {#$.ajax({
-                type: "POST",
-                url: "/api/post/write",
-                data: {
-                    class_title_give: class_title,
-                    class_url_give: class_url,
-                    class_image_give: class_image,
-                    class_tutor_give: class_tutor,
-                    class_desc_give: class_desc,
-                    class_price_give: class_price,
-                },
-                success: function (response) {
-                    console.log(response);
-                }
-            })#}
+                            $.ajax({
+                                type: "POST",
+                                url: "/api/post/write",
+                                data: {
+                                    class_title_give: class_title,
+                                    class_url_give: class_url,
+                                    class_image_give: class_image_url,
+                                    class_tutor_give: class_tutor,
+                                    class_desc_give: class_desc,
+                                    class_price_give: class_price,
+                                },
+                                success: function (response) {
+                                    console.log(response);
+                                    // 메인페이지로 이동
+                                }
+                            })
+                        });
+                    }
+                );
+            }
         }
     </script>
 </head>
@@ -136,26 +187,22 @@
             </div>
             <!-- 강의 url -->
             <div class="post_write_form">
-                <label class="form_group_label">강의 url</label>
+                <label class="form_group_label">클래스 URL</label>
                 <div class="input_container">
                     <input class="form-control" id="class_url_input">
                 </div>
             </div>
             <!-- 강의 이미지 -->
             <div class="post_write_form">
-                <label class="form_group_label">강의 이미지</label>
+                <label class="form_group_label">클래스 이미지</label>
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" id="file">
                     <label class="custom-file-label" for="file">사진 선택하기</label>
                 </div>
-                {#                <label class="form_group_label">강의 이미지</label>#}
-                {#                <div class="input_container">#}
-                {#                    <input class="post_write_input" id="class_image" type="file" visibility="hidden">#}
-                {#                </div>#}
             </div>
             <!-- 튜터 -->
             <div class="post_write_form">
-                <label class="form_group_label">튜터</label>
+                <label class="form_group_label">클래스 튜터</label>
                 <div class="input_container">
                     <input class="form-control" id="class_tutor">
                 </div>
@@ -170,7 +217,7 @@
             </div>
             <!-- 가격 -->
             <div class="post_write_form">
-                <label class="form_group_label">가격</label>
+                <label class="form_group_label">클래스 가격</label>
                 <div class="input_container">
                     <input class="form-control" id="class_price">
                 </div>
@@ -182,29 +229,5 @@
         </button>
     </div>
 </div>
-
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import {initializeApp} from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-    import {getAnalytics} from "https://www.gstatic.com/firebasejs/9.6.2/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-        apiKey: "AIzaSyAa3qmHVfZaCOc0TwIZcoLSejCt15qGPfM",
-        authDomain: "hanghae99-round5-miniproject1.firebaseapp.com",
-        projectId: "hanghae99-round5-miniproject1",
-        storageBucket: "hanghae99-round5-miniproject1.appspot.com",
-        messagingSenderId: "1073154554054",
-        appId: "1:1073154554054:web:6bfdc5607dbfd6e678bfc7",
-        measurementId: "G-ZVNT0X2VDR"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-</script>
 </body>
 </html>
