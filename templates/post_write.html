@@ -45,6 +45,9 @@
         firebase.initializeApp(firebaseConfig);
     </script>
 
+    <!--    이미지 파일 업로드 라이브러리  -->
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+
     <style>
         .post_write_wrap_outer {
             padding: 24px;
@@ -103,6 +106,11 @@
     </style>
 
     <script>
+        $(document).ready(function () {
+            // 선택한 파일 이름 보이게 하기
+            bsCustomFileInput.init()
+        })
+
         function post() {
             let class_title = $("#class_title_input").val();
             let class_url = $("#class_url_input").val();
@@ -123,8 +131,10 @@
                 window.alert("클래스 정보를 입력해주세요.");
             } else if (!class_price) {
                 window.alert("클래스 가격을 입력해주세요.");
-            } else {
-                // Firebase Storage에 이미지 업로드하고 url 받아오기
+            }
+            // Firebase Storage에 이미지 업로드하고 url 받아오기
+            else {
+                {#console.log($(".custom-file-label").text());#}
                 const storage = firebase.storage();
                 var storageRef = storage.ref();
                 var class_image_path = storageRef.child("class_image/" + `${class_image.name} +${Date.now()}`);
@@ -159,7 +169,7 @@
                                 },
                                 success: function (response) {
                                     console.log(response);
-                                    // 메인페이지로 이동
+                                    window.location.href = '/';
                                 }
                             })
                         });
@@ -211,7 +221,6 @@
             <div class="post_write_form">
                 <label class="form_group_label">클래스 정보</label>
                 <div class="input_container">
-                    <!--                    <input class="post_write_input" id="class_desc">-->
                     <textarea class="form-control" id="class_desc" rows="5"></textarea>
                 </div>
             </div>
