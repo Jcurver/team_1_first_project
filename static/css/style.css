@@ -5,6 +5,8 @@
 html,
 body {
   font-size: 16px;
+  padding: 0;
+  margin: 0;
 }
 .wrapper {
   width: 100%;
@@ -14,6 +16,11 @@ body {
 a {
   text-decoration: none !important;
   color: none;
+}
+
+.inner {
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 input:focus {
@@ -85,4 +92,13 @@ input:focus {
 }
 .header-br .btn02:hover {
   background-color: #e8e8e8;
+}
+
+.btn01 {
+  background-color: #fc5201;
+  border: none;
+  color: white;
+}
+.btn01:hover {
+  background-color: #ff6a00;
 }

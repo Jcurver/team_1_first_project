@@ -67,16 +67,36 @@
 
 /* 로그인 페이지 */
 
+.lg-title {
+  font-size: 40px;
+  padding-bottom: 30px;
+}
+.login-form .input-title {
+  font-size: 20px;
+  padding-bottom: 10px;
+}
+.login-form input {
+  width: 100%;
+  border: solid 1px #e3e3e3;
+  font-size: 20px;
+  padding: 20px;
+  border-radius: 6px;
+  color: #222;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
 .signup {
-  font-size: 11px;
-  font-weight: normal;
-  line-height: 16px;
-  letter-spacing: normal;
-  margin-top: 7px;
+  font-size: 14px;
   display: block;
   text-align: right;
   color: rgb(202, 202, 202);
+  margin-bottom: 20px;
 }
-.lg-title {
-  font-size: 60px;
+
+.login-form .btn01 {
+  width: 100%;
+  padding: 20px;
+  font-size: 20px;
+  border-radius: 10px;
+  cursor: pointer;
 }
