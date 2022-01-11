@@ -146,25 +146,13 @@ def posting():
 
 # jhmael-----------------------------------
 # [검색 API]
-# @app.route('/search', methods=['GET','POST'])
-# def search():
-#     if request.method == 'POST':
-#         search_receive = request.form['search_give']
-#         search_receive = str(search_receive)
-#         return render_template('/search.html').format(search_receive)
-#     elif request.method == 'GET':
-#         search_receive = request.args.get('search_give')
-#         search_receive = str(search_receive)
-#         return "GET으로 전달된 데이터({})".format(search_receive)
     
 @app.route('/search', methods=['GET'])
-# def search():
-#     search_receive = request.args.get('search_give')
-#     search_receive = str(search_receive)
-#     return render_template('/search.html').format(search_receive)
 
 def search_result():
+    # 검색어 가져오기
     search_receive = request.args.get('search_give')
+    # 검색어에 맞는 클래스 데이터 리스트
     result = list(db.classes.find({'class_title' : search_receive}, {"_id": False}))
     # print(search_receive)
     # print(result)
