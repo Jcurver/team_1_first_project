@@ -89,17 +89,20 @@
   font-weight: bold;
 }
 
-/* 로그인 페이지 */
+/* 로그인 페이지, 회원가입 페이지 */
 
-.lg-title {
+.lg-title,
+.rs-title {
   font-size: 40px;
   padding-bottom: 30px;
 }
-.login-form .input-title {
+.login-form .input-title,
+.register-form .input-title {
   font-size: 20px;
   padding-bottom: 10px;
 }
-.login-form input {
+.login-form input,
+.register-form input {
   width: 100%;
   border: solid 1px #e3e3e3;
   font-size: 20px;
@@ -107,7 +110,6 @@
   border-radius: 6px;
   color: #222;
   box-sizing: border-box;
-  margin-bottom: 20px;
 }
 .signup {
   font-size: 14px;
@@ -117,7 +119,8 @@
   margin-bottom: 20px;
 }
 
-.login-form .btn01 {
+.login-form .btn01,
+.register-form .btn01 {
   width: 100%;
   padding: 20px;
   font-size: 20px;
