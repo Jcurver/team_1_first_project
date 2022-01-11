@@ -1,4 +1,4 @@
-/* 마이페이지 */
+/* 메인페이지 */
 /* 그리드 리스트 */
 
 .main-content .card {
@@ -31,8 +31,12 @@
   font-size: 30px;
 }
 
-.main-content .card .card-title {
+.main-content .card .card-name {
   font-size: 0.6875rem;
+}
+.main-content .card .card-title {
+  font-size: 1.125rem;
+  font-weight: bold;
 }
 .main-content .card .card-text {
   font-size: 14px;
@@ -59,4 +63,20 @@
 }
 .mp-title h2 {
   font-weight: bold;
+}
+
+/* 로그인 페이지 */
+
+.signup {
+  font-size: 11px;
+  font-weight: normal;
+  line-height: 16px;
+  letter-spacing: normal;
+  margin-top: 7px;
+  display: block;
+  text-align: right;
+  color: rgb(202, 202, 202);
+}
+.lg-title {
+  font-size: 60px;
 }
