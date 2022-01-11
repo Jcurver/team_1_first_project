@@ -22,7 +22,6 @@ def mainpage():
     classes = list(db.classes.find({}, {"_id": False}))
     return render_template('index.html', classes=classes)
 
-
 @app.route('/mypage')
 def mypage():
     return render_template('mypage.html')
@@ -148,6 +147,24 @@ def posting():
     db.classes.insert_one(doc)
     return jsonify({"result": "success", 'msg': f'{class_title_receive} 포스팅 성공'})
 
+# jhmael-----------------------------------
+# [검색 API]
+    
+@app.route('/search', methods=['GET'])
+
+def search_result():
+    # 검색어 가져오기
+    search_receive = request.args.get('search_give')
+    # 검색어에 맞는 클래스 데이터 리스트
+    result = list(db.classes.find({'class_title' : search_receive}, {"_id": False}))
+    # print(search_receive)
+    # print(result)
+    # if search_receive != "":
+    #     return render_template('search.html', result=result, search_receive=search_receive ).format(search_receive)
+    # elif search_receive == "":
+    #     return jsonify({'msg' : '검색어를 입력해주세요'})
+    return render_template('search.html', result=result, search_receive=search_receive ).format(search_receive)
+    
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5000, debug=True)
+    app.run('0.0.0.0',port=5000, debug=True)
