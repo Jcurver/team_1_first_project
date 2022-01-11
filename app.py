@@ -39,6 +39,8 @@ def login():
 @app.route('/templates/register.html')
 def register():
     return render_template('register.html')
+
+
 @app.route('/api/register', methods=['POST'])
 def api_register():
     id_receive = request.form['id_give']
@@ -73,7 +75,7 @@ def api_login():
         # exp에는 만료시간을 넣어줍니다. 만료시간이 지나면, 시크릿키로 토큰을 풀 때 만료되었다고 에러가 납니다.
         payload = {
             'id': id_receive,
-            'exp': datetime.utcnow() + timedelta(seconds=5*60)
+            'exp': datetime.utcnow() + timedelta(seconds=5 * 60)
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
 
@@ -110,6 +112,7 @@ def api_valid():
         return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다.'})
     except jwt.exceptions.DecodeError:
         return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
+
 
 # 2ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 

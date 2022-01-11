@@ -8,6 +8,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
@@ -20,6 +24,7 @@
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
 
     <style>
         .post_write_wrap_outer {
@@ -60,38 +65,6 @@
             border-radius: 3px;
         }
 
-        .post_write_input {
-            font-size: 14px;
-            font-weight: normal;
-            line-height: 20px;
-            letter-spacing: -0.15px;
-            margin: 0px;
-            border: 1px solid rgb(239, 239, 239);
-            background-color: white;
-            height: 48px;
-            flex: 1 1 auto;
-            width: 100%;
-            color: rgb(26, 26, 26);
-            box-sizing: border-box;
-            padding: 0px 16px;
-        }
-
-        .post_write_textarea {
-            font-size: 14px;
-            font-weight: normal;
-            line-height: 20px;
-            letter-spacing: -0.15px;
-            margin: 0px;
-            border: 1px solid rgb(239, 239, 239);
-            background-color: white;
-            /*height: 48px;*/
-            flex: 1 1 auto;
-            width: 100%;
-            color: rgb(26, 26, 26);
-            box-sizing: border-box;
-            padding: 0px 16px;
-        }
-
         .post_write_button {
             width: 100%;
             margin: 16px 0px;
@@ -114,7 +87,8 @@
         function post() {
             let class_title = $("#class_title_input").val();
             let class_url = $("#class_url_input").val();
-            let class_image = $("#class_image").val();
+            {#let class_image = $("#class_image").val();#}
+            let class_image = $("#file")[0].files[0];
             let class_tutor = $("#class_tutor").val();
             let class_desc = $("#class_desc").val();
             let class_price = $("#class_price").val();
@@ -126,7 +100,7 @@
             console.log("class_desc", class_desc);
             console.log("class_price", class_price);
 
-            $.ajax({
+            {#$.ajax({
                 type: "POST",
                 url: "/api/post/write",
                 data: {
@@ -140,7 +114,7 @@
                 success: function (response) {
                     console.log(response);
                 }
-            })
+            })#}
         }
     </script>
 </head>
@@ -157,28 +131,33 @@
             <div class="post_write_form">
                 <label class="form_group_label">클래스 제목</label>
                 <div class="input_container">
-                    <input class="post_write_input" id="class_title_input">
+                    <input class="form-control" id="class_title_input">
                 </div>
             </div>
             <!-- 강의 url -->
             <div class="post_write_form">
                 <label class="form_group_label">강의 url</label>
                 <div class="input_container">
-                    <input class="post_write_input" id="class_url_input">
+                    <input class="form-control" id="class_url_input">
                 </div>
             </div>
             <!-- 강의 이미지 -->
             <div class="post_write_form">
                 <label class="form_group_label">강의 이미지</label>
-                <div class="input_container">
-                    <input class="post_write_input" id="class_image">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="file">
+                    <label class="custom-file-label" for="file">사진 선택하기</label>
                 </div>
+                {#                <label class="form_group_label">강의 이미지</label>#}
+                {#                <div class="input_container">#}
+                {#                    <input class="post_write_input" id="class_image" type="file" visibility="hidden">#}
+                {#                </div>#}
             </div>
             <!-- 튜터 -->
             <div class="post_write_form">
                 <label class="form_group_label">튜터</label>
                 <div class="input_container">
-                    <input class="post_write_input" id="class_tutor">
+                    <input class="form-control" id="class_tutor">
                 </div>
             </div>
             <!-- 클래스 정보 -->
@@ -186,14 +165,14 @@
                 <label class="form_group_label">클래스 정보</label>
                 <div class="input_container">
                     <!--                    <input class="post_write_input" id="class_desc">-->
-                    <textarea class="post_write_textarea" id="class_desc" rows="5"></textarea>
+                    <textarea class="form-control" id="class_desc" rows="5"></textarea>
                 </div>
             </div>
             <!-- 가격 -->
             <div class="post_write_form">
                 <label class="form_group_label">가격</label>
                 <div class="input_container">
-                    <input class="post_write_input" id="class_price">
+                    <input class="form-control" id="class_price">
                 </div>
             </div>
         </div>
@@ -203,5 +182,29 @@
         </button>
     </div>
 </div>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import {initializeApp} from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+    import {getAnalytics} from "https://www.gstatic.com/firebasejs/9.6.2/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+        apiKey: "AIzaSyAa3qmHVfZaCOc0TwIZcoLSejCt15qGPfM",
+        authDomain: "hanghae99-round5-miniproject1.firebaseapp.com",
+        projectId: "hanghae99-round5-miniproject1",
+        storageBucket: "hanghae99-round5-miniproject1.appspot.com",
+        messagingSenderId: "1073154554054",
+        appId: "1:1073154554054:web:6bfdc5607dbfd6e678bfc7",
+        measurementId: "G-ZVNT0X2VDR"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+</script>
 </body>
 </html>
