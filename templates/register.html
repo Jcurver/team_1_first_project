@@ -1,113 +1,121 @@
 <!doctype html>
 <html lang="en">
-    <head>
 
-        <!-- Webpage Title -->
-        <title>클래스202</title>
+<head>
 
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Webpage Title -->
+    <title>클래스202</title>
 
-        <!-- Bulma CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-        <!-- JS -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <style>
-            .capital_letter {
-                color: rgb(255, 86, 0);
-                display: flex;
-                -webkit-box-align: center;
-                align-items: center;
-                font-size: 11px;
-                margin: 2px 0px;
-            }
-        </style>
+    <!-- css -->
+    <link rel="stylesheet" href="../../static/css/style.css" />
+    <link rel="stylesheet" href="../../static/css/jh_style.css" />
+
+    <!-- bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <style>
+        .capital_letter {
+            color: rgb(255, 86, 0);
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            font-size: 11px;
+            margin: 2px 0px;
+            padding-bottom: 10px;
+        }
+    </style>
 
 
-        <script>
-            // 간단한 회원가입 함수입니다.
-            // 아이디, 비밀번호, 닉네임을 받아 DB에 저장합니다.
-            function register() {
-                $.ajax({
-                    type: "POST",
-                    url: "/api/register",
-                    data: {
-                        id_give: $('#userid').val(),
-                        pw_give: $('#userpw').val(),
-                        nickname_give: $('#usernick').val()
-                    },
-                    success: function (response) {
-                        if (response['result'] == 'success') {
-                            alert('회원가입이 완료되었습니다.')
-                            window.location.href = '/login'
-                        } else {
-                            alert(response['msg'])
-                        }
+    <script>
+        // 간단한 회원가입 함수입니다.
+        // 아이디, 비밀번호, 닉네임을 받아 DB에 저장합니다.
+        function register() {
+            $.ajax({
+                type: "POST",
+                url: "/api/register",
+                data: {
+                    id_give: $('#userid').val(),
+                    pw_give: $('#userpw').val(),
+                    nickname_give: $('#usernick').val()
+                },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert('회원가입이 완료되었습니다.')
+                        window.location.href = '/login'
+                    } else {
+                        alert(response['msg'])
                     }
-                })
-            }
+                }
+            })
+        }
 
-        </script>
-    </head>
-    <body>
-        <div class="section has-text-centered">
-            <h1 class="title">회원가입</h1>
-            <div class="container" style="width:30%">
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="" for="userid">이메일</label>
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <header class="main-header">
+                <div class="main-header-wrap">
+                    <div class="main-header-container">
+                        <a href="/">
+                            <h1 class="logo">Logo</h1>
+                        </a>
+                        <div></div>
                     </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <div class="control">
+                </div>
+            </header>
+            <div class="inner">
+                <div class="content">
+                    <h2 class="rs-title">회원가입</h2>
+                    <div class="rs-cont">
+                        <form action="" class="register-form">
+                            <div class="register-form-div">
+                                <p class="input-title">이메일</p>
                                 <input type="text" class="input" id="userid" aria-describedby="emailHelp"
-                                       placeholder="example@naver.com">
+                                    placeholder="example@naver.com">
+                                <label class="" for="userid"></label>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="" for="userpw">비밀번호</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <div class="control">
+                            <div class="register-form-div">
+                                <p class="input-title">비밀번호</p>
                                 <input type="password" class="input" id="userpw" placeholder="********">
+                                <label class="" for="userpw"></label>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="" for="userpw">비밀번호 확인</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <div class="control">
+                            <div class="register-form-div">
+                                <p class="input-title">비밀번호 확인</p>
                                 <input type="password" class="input" id="userpw" placeholder="********">
-                                <div class="capital_letter"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.872 19.51A1 1 0 0121 21H3a1 1 0 01-.872-1.49l9-16a1 1 0 011.743 0l9 16zM13 15V9h-2v6h2zm0 3v-2h-2v2h2z" fill="#ff5600"></path></svg>영문 대문자/영문 소문자/숫자/특수문자 중 2가지 이상 조합, 8자~32자</div>
+                                <label class="" for="userpw"></label>
+                                <div class="capital_letter"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                        height="16" fill="none" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd"
+                                            d="M21.872 19.51A1 1 0 0121 21H3a1 1 0 01-.872-1.49l9-16a1 1 0 011.743 0l9 16zM13 15V9h-2v6h2zm0 3v-2h-2v2h2z"
+                                            fill="#ff5600"></path>
+                                    </svg>영문 대문자/영문 소문자/숫자/특수문자 중 2가지 이상 조합, 8자~32자</div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="" for="usernick">닉네임</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <div class="control">
+                            <div class="register-form-div">
+                                <p class="input-title">닉네임</p>
                                 <input type="text" class="input" id="usernick" placeholder="">
+                                <label class="" for="usernick"></label>
                             </div>
-                        </div>
+                            <button class="btn01" onclick="register()">동의하고 회원가입</button>
+                        </form>
                     </div>
                 </div>
-                <button class="button is-primary" onclick="register()">동의하고 회원가입</button>
             </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>
