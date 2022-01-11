@@ -21,6 +21,10 @@ db = client.db_hanghae99_miniproject1
 def mainpage():
     classes = list(db.classes.find({}, {"_id": False}))
     return render_template('index.html', classes=classes)
+# 검색 API
+def main_search(search_give = None):
+    return render_template('search.html', search_give=search_give)
+    
 
 
 @app.route('/mypage')
@@ -145,6 +149,20 @@ def posting():
     db.classes.insert_one(doc)
     return jsonify({"result": "success", 'msg': f'{class_title_receive} 포스팅 성공'})
 
+# jhmael-----------------------------------
+# [검색 API]
+@app.route('/search', methods=['GET','POST'])
+def search(search_give=None):
+    if request.method == 'POST'
+    # 검색 데이터
+    search_receive = request.form['search_give']
+    search_receive = str(search_receive)
+    print(search_receive)
+    
+    return render_template('search.html')
+# def search():
+#     return render_template('search.html')
+
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5000, debug=True)
+    app.run('0.0.0.0',port=5000, debug=True)
