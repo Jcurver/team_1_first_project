@@ -16,22 +16,17 @@ SECRET_KEY = 'SPARTA'
 client = MongoClient('localhost', 27017)
 db = client.hanghae99_miniproject1
 
-
 @app.route('/')
 def mainpage():
-    return render_template('index.html')
-
+    classes = list(db.classes.find({}, {"_id": False}))
+    return render_template('index.html', classes=classes)
 
 @app.route('/mypage')
 def mypage():
     return render_template('mypage.html')
-
-
 @app.route('/api/user/login')
 def login():
     return render_template('login.html')
-
-
 @app.route('/post_write')
 def post_write():
     return render_template('post_write.html')
@@ -52,19 +47,15 @@ def posting():
     # print("class_tutor_receive", class_tutor_receive)
     # print("class_desc_receive", class_desc_receive)
     # print("class_price_receive", class_price_receive)
-
-    doc = {
-        'post_writer': '로그인된 유저',
-        'class_title': class_title_receive,
-        'class_url': class_url_receive,
-        'class_image': class_image_receive,
-        'class_tutor': class_tutor_receive,
-        'class_desc': class_desc_receive,
-        'class_price': class_price_receive,
-    }
+    doc = {"class_title":class_title_receive,
+           "class_url": class_url_receive,
+           "class_image_url": class_image_receive,
+           "class_instructor": class_tutor_receive,
+           "class_desc": class_desc_receive,
+           "class_price": class_price_receive,
+           }
     db.classes.insert_one(doc)
-
-    return jsonify({"result": "success", 'msg': '포스팅 성공'})
+    return jsonify({"result": "success", 'msg': f'{class_title_receive} 포스팅 성공'})
 
 
 if __name__ == '__main__':
