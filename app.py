@@ -136,22 +136,34 @@ def post_write():
 
 @app.route('/api/post/write', methods=['POST'])
 def posting():
-    class_title_receive = request.form['class_title_give']
-    class_url_receive = request.form['class_url_give']
-    class_image_receive = request.form['class_image_give']
-    class_tutor_receive = request.form['class_tutor_give']
-    class_desc_receive = request.form['class_desc_give']
-    class_price_receive = request.form['class_price_give']
+    token_receive = request.cookies.get('mytoken')
 
-    doc = {"class_title": class_title_receive,
-           "class_url": class_url_receive,
-           "class_image": class_image_receive,
-           "class_instructor": class_tutor_receive,
-           "class_desc": class_desc_receive,
-           "class_price": class_price_receive,
-           }
-    db.classes.insert_one(doc)
-    return jsonify({"result": "success", 'msg': f'{class_title_receive} 포스팅 성공'})
+    if token_receive:
+        print("토큰 있음")
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({'username': payload['username']})
+
+        class_title_receive = request.form['class_title_give']
+        class_url_receive = request.form['class_url_give']
+        class_image_receive = request.form['class_image_give']
+        class_tutor_receive = request.form['class_tutor_give']
+        class_desc_receive = request.form['class_desc_give']
+        class_price_receive = request.form['class_price_give']
+
+        doc = {
+            "post_writer": user_info["username"],
+            "class_title": class_title_receive,
+            "class_url": class_url_receive,
+            "class_image": class_image_receive,
+            "class_instructor": class_tutor_receive,
+            "class_desc": class_desc_receive,
+            "class_price": class_price_receive,
+        }
+        db.classes.insert_one(doc)
+        return jsonify({"result": "success", 'msg': '포스팅 성공'})
+    else:
+        print("토큰 없음")
+        return jsonify({"result": "failure", 'msg': '토큰 없음'})
 
 
 # jhmael-----------------------------------

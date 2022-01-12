@@ -139,7 +139,7 @@
             // Firebase Storage에 이미지 업로드하고 url 받아오기
             else {
                 {
-                    #console.log($(".custom-file-label").text());
+                    console.log($(".custom-file-label").text());
                 }
                 const storage = firebase.storage();
                 var storageRef = storage.ref();
@@ -175,7 +175,12 @@
                                 },
                                 success: function (response) {
                                     console.log(response);
-                                    window.location.href = '/';
+                                    if (response['result'] == 'success') {
+                                        window.location.href = '/';
+                                    } else {
+                                        window.alert("로그인 정보가 없습니다.")
+                                        window.location.href = '/login';
+                                    }
                                 }
                             })
                         });
