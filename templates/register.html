@@ -74,7 +74,7 @@
             console.log("username_checked", username_checked);
             console.log("username_duplicated", username_duplicated);
 
-            // { #username_duplicated_check(username);# }
+            { #username_duplicated_check(username);# }
 
             // 아이디를 입력 안했을 경우
             if (username == "") {
@@ -114,8 +114,8 @@
             }
             // 모든 예외 처리 통과했을 경우
             else {
-                // { #window.alert("회원가입 실행");# }
-                //  { #window.location.href = "/";# }
+                { #window.alert("회원가입 실행");# }
+                { #window.location.href = "/";# }
                 $.ajax({
                     type: "POST",
                     url: "/api/user/signup",
