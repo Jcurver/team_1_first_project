@@ -22,6 +22,7 @@ def mainpage():
     classes = list(db.classes.find({}, {"_id": False}))
     return render_template('index.html', classes=classes)
 
+
 @app.route('/mypage')
 def mypage():
     return render_template('mypage.html')
@@ -29,33 +30,45 @@ def mypage():
 
 # 1ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-@app.route('/api/user/login')
-def login():
+@app.route('/login')
+def login_page():
     msg = request.args.get("msg")
     return render_template('login.html', msg=msg)
 
 
-@app.route('/templates/register.html')
-def register():
+# @app.route('/signup')
+# def signup_page():
+#     return render_template('register.html')
+
+
+@app.route('/signup')
+def signup_page():
     return render_template('register.html')
 
 
-@app.route('/api/register', methods=['POST'])
-def api_register():
+@app.route('/api/user/signup', methods=['POST'])
+def signup():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
-    nickname_receive = request.form['nickname_give']
 
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
-    db.user.insert_one({'id': id_receive, 'pw': pw_hash, 'nick': nickname_receive})
+    db.users.insert_one({'username': id_receive, 'password': pw_hash})
 
     return jsonify({'result': 'success'})
 
 
+# 아이디 중복 여부 확인
+@app.route('/api/sign_up/check_dup', methods=['POST'])
+def check_dup():
+    username_receive = request.form['username_give']
+    exists = bool(db.users.find_one({'username': username_receive}))
+    return jsonify({'result': 'success', 'exists': exists})
+
+
 # [로그인 API]
 # id, pw를 받아서 맞춰보고, 토큰을 만들어 발급합니다.
-@app.route('/api/login', methods=['POST'])
+@app.route('/api/user/login', methods=['POST'])
 def api_login():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
@@ -104,7 +117,7 @@ def api_valid():
 
         # payload 안에 id가 들어있습니다. 이 id로 유저정보를 찾습니다.
         # 여기에선 그 예로 닉네임을 보내주겠습니다.
-        userinfo = db.user.find_one({'id': payload['id']}, {'_id': 0})
+        userinfo = db.users.find_one({'id': payload['id']}, {'_id': 0})
         return jsonify({'result': 'success', 'nickname': userinfo['nick']})
     except jwt.ExpiredSignatureError:
         # 위를 실행했는데 만료시간이 지났으면 에러가 납니다.
@@ -130,13 +143,6 @@ def posting():
     class_desc_receive = request.form['class_desc_give']
     class_price_receive = request.form['class_price_give']
 
-    # print("class_title_receive", class_title_receive)
-    # print("class_url_receive", class_url_receive)
-    # print("class_image_receive", class_image_receive)
-    # print("class_tutor_receive", class_tutor_receive)
-    # print("class_desc_receive", class_desc_receive)
-    # print("class_price_receive", class_price_receive)
-
     doc = {"class_title": class_title_receive,
            "class_url": class_url_receive,
            "class_image": class_image_receive,
@@ -147,25 +153,25 @@ def posting():
     db.classes.insert_one(doc)
     return jsonify({"result": "success", 'msg': f'{class_title_receive} 포스팅 성공'})
 
+
 # jhmael-----------------------------------
 
 # [검색 API]
 @app.route('/search', methods=['GET'])
-
 def search_result():
     # 검색어 가져오기
     search_receive = request.args.get('search_give')
-    
+
     # 검색어에 맞는 클래스 데이터 리스트 찾기
     # 검색어에 값이 있을때
     if search_receive:
-        result = list(db.classes.find({'class_title' : {'$regex' : search_receive,'$options':'i'}}, {"_id": False}))
+        result = list(db.classes.find({'class_title': {'$regex': search_receive, '$options': 'i'}}, {"_id": False}))
     # 검색어가 빈값일때
     elif not search_receive:
-        result = list(db.classes.find({'class_title' : search_receive}, {"_id": False}))
+        result = list(db.classes.find({'class_title': search_receive}, {"_id": False}))
     # 리턴
-    return render_template('search.html', result=result, search_receive=search_receive ).format(search_receive)
-    
+    return render_template('search.html', result=result, search_receive=search_receive).format(search_receive)
+
 
 if __name__ == '__main__':
-    app.run('0.0.0.0',port=5000, debug=True)
+    app.run('0.0.0.0', port=5000, debug=True)
