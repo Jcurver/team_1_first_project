@@ -58,6 +58,8 @@
             <div class="content">
                 <div class="main-content">
                     <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 g-4">
+                        {% if result | length %}
+
                         {% for class in result %}
                         <div class="col">
                             <div class="card h-100">
@@ -91,8 +93,11 @@
                                 </a>
                             </div>
                         </div>
-
                         {% endfor %}
+
+                        {% else %}
+                        <div class="search-empty">검색 결과가 없습니다.</div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

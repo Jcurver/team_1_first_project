@@ -148,21 +148,22 @@ def posting():
     return jsonify({"result": "success", 'msg': f'{class_title_receive} 포스팅 성공'})
 
 # jhmael-----------------------------------
+
 # [검색 API]
-    
 @app.route('/search', methods=['GET'])
 
 def search_result():
     # 검색어 가져오기
     search_receive = request.args.get('search_give')
-    # 검색어에 맞는 클래스 데이터 리스트
-    result = list(db.classes.find({'class_title' : search_receive}, {"_id": False}))
-    # print(search_receive)
-    # print(result)
-    # if search_receive != "":
-    #     return render_template('search.html', result=result, search_receive=search_receive ).format(search_receive)
-    # elif search_receive == "":
-    #     return jsonify({'msg' : '검색어를 입력해주세요'})
+    
+    # 검색어에 맞는 클래스 데이터 리스트 찾기
+    # 검색어에 값이 있을때
+    if search_receive:
+        result = list(db.classes.find({'class_title' : {'$regex' : search_receive,'$options':'i'}}, {"_id": False}))
+    # 검색어가 빈값일때
+    elif not search_receive:
+        result = list(db.classes.find({'class_title' : search_receive}, {"_id": False}))
+    # 리턴
     return render_template('search.html', result=result, search_receive=search_receive ).format(search_receive)
     
 
