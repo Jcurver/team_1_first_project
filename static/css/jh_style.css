@@ -127,3 +127,11 @@
   border-radius: 10px;
   cursor: pointer;
 }
+
+/* 검색페이지 */
+.search-empty {
+  font-size: 40px;
+  width: 100% !important;
+  text-align: center;
+  color: #adadad;
+}

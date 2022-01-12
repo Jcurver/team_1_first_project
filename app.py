@@ -156,7 +156,11 @@ def search_result():
     # 검색어 가져오기
     search_receive = request.args.get('search_give')
     # 검색어에 맞는 클래스 데이터 리스트
-    result = list(db.classes.find({'class_title' : search_receive}, {"_id": False}))
+    if search_receive:
+        result = list(db.classes.find({'class_title' : {'$regex' : search_receive,'$options':'i'}}, {"_id": False}))
+    elif not search_receive:
+        result = list(db.classes.find({'class_title' : search_receive}, {"_id": False}))
+    
     # print(search_receive)
     # print(result)
     # if search_receive != "":
