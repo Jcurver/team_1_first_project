@@ -64,17 +64,17 @@
             let password = $('#userpw').val();
             let password_check = $('#userpw_check').val();
 
-            console.log("username", username);
-            console.log("password", password);
-            console.log("password_check", password_check);
+            {
+                #console.log("username", username);
+                console.log("password", password);
+                console.log("password_check", password_check);
 
-            console.log("아이디 정규표현식", is_username(username));
-            console.log("패스워드 정규표현식", is_password(password));
+                console.log("아이디 정규표현식", is_username(username));
+                console.log("패스워드 정규표현식", is_password(password));
 
-            console.log("username_checked", username_checked);
-            console.log("username_duplicated", username_duplicated);
-
-            { #username_duplicated_check(username);# }
+                console.log("username_checked", username_checked);
+                console.log("username_duplicated", username_duplicated);#
+            }
 
             // 아이디를 입력 안했을 경우
             if (username == "") {
@@ -82,7 +82,7 @@
             }
             // 아이디의 형식이 올바르지 않은 경우 (feat. 정규표현식)
             else if (!is_username(username)) {
-                window.alert("닉네임의 형식이 올바르지 않습니다.");
+                window.alert("아이디의 형식이 올바르지 않습니다.");
             }
             // 아이디 중복 여부가 확인 안됐을 경우 1
             else if (username_checked == false && username_duplicated == false) {
@@ -114,8 +114,6 @@
             }
             // 모든 예외 처리 통과했을 경우
             else {
-                { #window.alert("회원가입 실행");# }
-                { #window.location.href = "/";# }
                 $.ajax({
                     type: "POST",
                     url: "/api/user/signup",
@@ -179,7 +177,6 @@
                         </a>
                         <div></div>
                     </div>
-                </div>
             </header>
             <div class="inner">
                 <div class="content">
@@ -222,9 +219,12 @@
                             <button class="btn01" onclick="register()">동의하고 회원가입</button>
                         </div>
                     </div>
+                    <button class="btn01" onclick="register()">동의하고 회원가입</button>
+                    <button onclick="username_duplicated_check()">아이디 중복 확인</button>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </body>
 
