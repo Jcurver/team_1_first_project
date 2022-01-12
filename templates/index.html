@@ -25,7 +25,45 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
     <!-- js -->
-    <script src="../static/js/main.js"></script>
+    <script>
+        function toggle_like(post_id, type) {
+            console.log(post_id, type)
+            let $a_like = $(`#${post_id} a.lecture_like`);
+            let $i_like = $a_like.find("i");
+            let $is_liked = $(`#${post_id} p.liked`);
+            if ($i_like.hasClass("xi-heart")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/post/like",
+                    data: {
+                        post_id_give: post_id,
+                        type_give: type,
+                        action_give: "unlike"
+                    },
+                    success: function (response) {
+                        console.log("unlike");
+                        $i_like.addClass("xi-heart-o").removeClass("xi-heart");
+                        $is_liked.find("span").text(response["count"])
+                    }
+                })
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/post/like",
+                    data: {
+                        post_id_give: post_id,
+                        type_give: type,
+                        action_give: "like"
+                    },
+                    success: function (response) {
+                        console.log("like");
+                        $i_like.addClass("xi-heart").removeClass("xi-heart-o");
+                        $is_liked.find("span").text(response["count"])
+                    }
+                })
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -59,14 +97,14 @@
                 <div class="main-content">
                     <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 g-4">
                         {% for class in classes %}
-                        <div class="col">
+                        <div class="col" id="{{ class._id }}">
                             <div class="card h-100">
                                 <div class="img-wrap">
                                     <a href="{{ class.class_url }}" class="img-wrap-a"
                                         style="background-image: url('{{ class.class_image }}');">
                                     </a>
-                                    <a href="" class="lecture-like">
-                                        {% if class.is_BookMarked %}
+                                    <a class="lecture-like" onclick="toggle_like()">
+                                        {% if class.toggle_like %}
                                         <i class="xi-heart"></i>
                                         {% else %}
                                         <i class="xi-heart-o"></i>
@@ -80,12 +118,14 @@
                                         {{ class.class_desc }}
                                     </p>
                                     <p class="liked">
-                                        {% if class.is_Liked %}
+                                        <!-- {% if class.is_Liked %}
                                         <i class="xi-heart" style="color:pink"></i>
                                         {% else %}
                                         <i class="xi-heart"></i>
                                         {% endif %}
-                                        <span>{{ class.like_number }}</span>
+                                        <span>{{ class.like_number }}</span> -->
+                                        <i class="xi-heart"></i>
+                                        <span>{{ class.like_count }}</span>
                                     </p>
                                     <p class="card-price">월 {{ class.class_price }}원</p>
                                 </a>
@@ -156,6 +196,7 @@
             </div>
         </div>
     </div>
+    <!-- <script src="{{ url_for('static', filename='/js/main.js') }}"></script> -->
 </body>
 
 </html>

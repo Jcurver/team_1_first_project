@@ -37,9 +37,6 @@
             let username = $('#userid').val();
             let password = $('#userpw').val();
 
-            {#console.log("username", username);#}
-            {#console.log("password", password);#}
-
             $.ajax({
                 type: "POST",
                 url: '/api/user/login',
