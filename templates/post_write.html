@@ -11,9 +11,9 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"/>
 
     <!-- Bulma CSS -->
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"> -->
@@ -23,7 +23,7 @@
 
     <!-- mystyle.css -->
     <!--    <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">-->
-    <link rel="stylesheet" href="../static/css/style.css" />
+    <link rel="stylesheet" href="../static/css/style.css"/>
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -138,7 +138,9 @@
             }
             // Firebase Storage에 이미지 업로드하고 url 받아오기
             else {
-                { #console.log($(".custom-file-label").text()); }
+                {
+                    #console.log($(".custom-file-label").text());
+                }
                 const storage = firebase.storage();
                 var storageRef = storage.ref();
                 var class_image_path = storageRef.child("class_image/" + `${class_image.name} +${Date.now()}`);
@@ -185,78 +187,78 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        <div class="container">
-            <header class="main-header">
-                <div class="main-header-wrap">
-                    <div class="main-header-container">
-                        <a href="/">
-                            <h1 class="logo">Logo</h1>
-                        </a>
-                        <div></div>
+<div class="wrapper">
+    <div class="container">
+        <header class="main-header">
+            <div class="main-header-wrap">
+                <div class="main-header-container">
+                    <a href="/">
+                        <h1 class="logo">Logo</h1>
+                    </a>
+                    <div></div>
+                </div>
+            </div>
+        </header>
+        <div class="post_write_wrap_outer">
+            <div class="post_write_wrap">
+                <!--  페이지 제목  -->
+                <div class="post_write_title">
+                    <h2 class="post_write_title_text">포스트 작성</h2>
+                </div>
+                <!--  인풋 모음  -->
+                <div class="post_write_form_group">
+                    <!-- 클래스 제목 -->
+                    <div class="post_write_form">
+                        <label class="form_group_label">클래스 제목</label>
+                        <div class="input_container">
+                            <input class="form-control" id="class_title_input">
+                        </div>
+                    </div>
+                    <!-- 강의 url -->
+                    <div class="post_write_form">
+                        <label class="form_group_label">클래스 URL</label>
+                        <div class="input_container">
+                            <input class="form-control" id="class_url_input">
+                        </div>
+                    </div>
+                    <!-- 강의 이미지 -->
+                    <div class="post_write_form">
+                        <label class="form_group_label">클래스 이미지</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="file">
+                            <label class="custom-file-label" for="file">사진 선택하기</label>
+                        </div>
+                    </div>
+                    <!-- 튜터 -->
+                    <div class="post_write_form">
+                        <label class="form_group_label">클래스 튜터</label>
+                        <div class="input_container">
+                            <input class="form-control" id="class_tutor">
+                        </div>
+                    </div>
+                    <!-- 클래스 정보 -->
+                    <div class="post_write_form">
+                        <label class="form_group_label">클래스 정보</label>
+                        <div class="input_container">
+                            <textarea class="form-control" id="class_desc" rows="5"></textarea>
+                        </div>
+                    </div>
+                    <!-- 가격 -->
+                    <div class="post_write_form">
+                        <label class="form_group_label">클래스 가격</label>
+                        <div class="input_container">
+                            <input class="form-control" id="class_price">
+                        </div>
                     </div>
                 </div>
-            </header>
-            <div class="post_write_wrap_outer">
-                <div class="post_write_wrap">
-                    <!--  페이지 제목  -->
-                    <div class="post_write_title">
-                        <h2 class="post_write_title_text">포스트 작성</h2>
-                    </div>
-                    <!--  인풋 모음  -->
-                    <div class="post_write_form_group">
-                        <!-- 클래스 제목 -->
-                        <div class="post_write_form">
-                            <label class="form_group_label">클래스 제목</label>
-                            <div class="input_container">
-                                <input class="form-control" id="class_title_input">
-                            </div>
-                        </div>
-                        <!-- 강의 url -->
-                        <div class="post_write_form">
-                            <label class="form_group_label">클래스 URL</label>
-                            <div class="input_container">
-                                <input class="form-control" id="class_url_input">
-                            </div>
-                        </div>
-                        <!-- 강의 이미지 -->
-                        <div class="post_write_form">
-                            <label class="form_group_label">클래스 이미지</label>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="file">
-                                <label class="custom-file-label" for="file">사진 선택하기</label>
-                            </div>
-                        </div>
-                        <!-- 튜터 -->
-                        <div class="post_write_form">
-                            <label class="form_group_label">클래스 튜터</label>
-                            <div class="input_container">
-                                <input class="form-control" id="class_tutor">
-                            </div>
-                        </div>
-                        <!-- 클래스 정보 -->
-                        <div class="post_write_form">
-                            <label class="form_group_label">클래스 정보</label>
-                            <div class="input_container">
-                                <textarea class="form-control" id="class_desc" rows="5"></textarea>
-                            </div>
-                        </div>
-                        <!-- 가격 -->
-                        <div class="post_write_form">
-                            <label class="form_group_label">클래스 가격</label>
-                            <div class="input_container">
-                                <input class="form-control" id="class_price">
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 포스트 작성 버튼 -->
-                    <button class="post_write_button" onclick="post()">
-                        <span class="post_write_button_text">포스트 작성</span>
-                    </button>
-                </div>
+                <!-- 포스트 작성 버튼 -->
+                <button class="post_write_button" onclick="post()">
+                    <span class="post_write_button_text">포스트 작성</span>
+                </button>
             </div>
         </div>
     </div>
+</div>
 </body>
 
 </html>
