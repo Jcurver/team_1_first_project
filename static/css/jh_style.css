@@ -101,6 +101,15 @@
   font-size: 20px;
   padding-bottom: 10px;
 }
+.input-flex {
+  display: flex;
+}
+.input-flex .btn03 {
+  flex-shrink: 0;
+  padding: 0px 10px;
+  background-color: #e8e8e8;
+  border: solid 1px #adadad;
+}
 .login-form input,
 .register-form input {
   width: 100%;
