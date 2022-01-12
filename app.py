@@ -183,15 +183,17 @@ def search_result():
         result = list(db.classes.find({'class_title': search_receive}, {}))
     # 리턴
     return render_template('search.html', result=result, search_receive=search_receive).format(search_receive)
+
 # [좋아요 API]
 @app.route('/api/post/like', methods=['POST'])
 def likes():
     token_receive = request.cookies.get('mytoken')
     try:
         if token_receive:
-            print('found token')
+            print('found token',token_receive)
             payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-            user_info = db.users.find_one({"username": payload["id"]})
+            user_info = db.users.find_one({"username": payload["username"]})
+            print(user_info)
             post_id_receive = request.form["post_id_give"]
             type_receive = request.form["type_give"]
             action_receive = request.form["action_give"]
@@ -200,7 +202,7 @@ def likes():
                 "username": user_info["username"],
                 "type": type_receive
             }
-            if action_receive =="like":
+            if action_receive == "like":
                 db.likes.insert_one(doc)
             else:
                 db.likes.delete_one(doc)
