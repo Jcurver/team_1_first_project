@@ -19,8 +19,29 @@ db = client.db_hanghae99_miniproject1
 
 @app.route('/')
 def mainpage():
-    classes = list(db.classes.find({},{}))
-    return render_template('index.html', classes=classes)
+    # 메인페이지 랜더링
+    return render_template('index.html')
+
+# 1/12일 추가 -Jhmael
+# 카드 리스트 불러오기
+@app.route('/home', methods=['GET'])
+def listing():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        # 전체 카드 리스트 찾기
+        classes = list(db.classes.find({},{}))
+        # Id값을 string으로 변환
+        for post in classes:
+            post["_id"] = str(post["_id"])
+            post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
+            post["heart_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "type": "heart", "username": payload['username']}))
+            post["bookmark_by_me"] = bool(db.bookmarks.find_one({"post_id": post["_id"], "type": "bookmark", "username": payload['username']}))
+        # json값을 html에 전달
+        return jsonify({'result': 'success','msg':'성공!','classes': classes})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+    
 
 
 @app.route('/mypage')
@@ -193,7 +214,7 @@ def likes():
             print('found token',token_receive)
             payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
             user_info = db.users.find_one({"username": payload["username"]})
-            print(user_info)
+            print('user_info',user_info)
             post_id_receive = request.form["post_id_give"]
             type_receive = request.form["type_give"]
             action_receive = request.form["action_give"]
@@ -207,6 +228,34 @@ def likes():
             else:
                 db.likes.delete_one(doc)
             count = db.likes.count_documents({"post_id": post_id_receive, "type": type_receive})
+            return jsonify({"result": "success", 'msg': 'updated', "count": count})
+            # 좋아요 수 변경
+            # return jsonify({"result": "success", 'msg': 'updated'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("/"))
+
+@app.route('/api/post/bookmark', methods=['POST'])
+def bookmarks():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        if token_receive:
+            print('found token',token_receive)
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+            user_info = db.users.find_one({"username": payload["username"]})
+            print('user_info',user_info)
+            post_id_receive = request.form["post_id_give"]
+            type_receive = request.form["type_give"]
+            action_receive = request.form["action_give"]
+            doc = {
+                "post_id": post_id_receive,
+                "username": user_info["username"],
+                "type": type_receive
+            }
+            if action_receive == "bookmark":
+                db.bookmarks.insert_one(doc)
+            else:
+                db.bookmarks.delete_one(doc)
+            count = db.bookmarks.count_documents({"post_id": post_id_receive, "type": type_receive})
             return jsonify({"result": "success", 'msg': 'updated', "count": count})
             # 좋아요 수 변경
             # return jsonify({"result": "success", 'msg': 'updated'})

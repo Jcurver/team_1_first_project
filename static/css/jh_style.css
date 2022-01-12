@@ -40,6 +40,17 @@
   font-size: 30px;
 }
 
+.lecture-bookmark {
+  position: absolute;
+  top: 10px;
+  right: 40px;
+  cursor: pointer;
+}
+.lecture-bookmark i {
+  color: white;
+  font-size: 30px;
+}
+
 .main-content .card .card-name {
   font-size: 0.6875rem;
 }
