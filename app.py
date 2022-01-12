@@ -19,7 +19,7 @@ db = client.db_hanghae99_miniproject1
 
 @app.route('/')
 def mainpage():
-    classes = list(db.classes.find({}, {"_id": False}))
+    classes = list(db.classes.find({},{}))
     return render_template('index.html', classes=classes)
 
 
@@ -177,13 +177,40 @@ def search_result():
     # 검색어에 맞는 클래스 데이터 리스트 찾기
     # 검색어에 값이 있을때
     if search_receive:
-        result = list(db.classes.find({'class_title': {'$regex': search_receive, '$options': 'i'}}, {"_id": False}))
+        result = list(db.classes.find({'class_title': {'$regex': search_receive, '$options': 'i'}}, {}))
     # 검색어가 빈값일때
     elif not search_receive:
-        result = list(db.classes.find({'class_title': search_receive}, {"_id": False}))
+        result = list(db.classes.find({'class_title': search_receive}, {}))
     # 리턴
     return render_template('search.html', result=result, search_receive=search_receive).format(search_receive)
-
+# [좋아요 API]
+@app.route('/api/post/like', methods=['POST'])
+def likes():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        if token_receive:
+            print('found token')
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+            user_info = db.users.find_one({"username": payload["id"]})
+            post_id_receive = request.form["post_id_give"]
+            type_receive = request.form["type_give"]
+            action_receive = request.form["action_give"]
+            doc = {
+                "post_id": post_id_receive,
+                "username": user_info["username"],
+                "type": type_receive
+            }
+            if action_receive =="like":
+                db.likes.insert_one(doc)
+            else:
+                db.likes.delete_one(doc)
+            count = db.likes.count_documents({"post_id": post_id_receive, "type": type_receive})
+            return jsonify({"result": "success", 'msg': 'updated', "count": count})
+            # 좋아요 수 변경
+            # return jsonify({"result": "success", 'msg': 'updated'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("/"))
+        
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
