@@ -31,7 +31,7 @@ def listing():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         # 전체 카드 리스트 찾기
-        classes = list(db.classes.find({},{}))
+        classes = list(db.classes.find({}))
         # Id값을 string으로 변환
         for post in classes:
             post["_id"] = str(post["_id"])
@@ -41,7 +41,7 @@ def listing():
         # json값을 html에 전달
         return jsonify({'result': 'success','msg':'성공!','classes': classes})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        classes = list(db.classes.find({},{}))
+        classes = list(db.classes.find({}))
         print(classes)
         for post in classes:
             post["_id"] = str(post["_id"])
@@ -208,7 +208,7 @@ def search_result():
         result = list(db.classes.find({'class_title': {'$regex': search_receive, '$options': 'i'}}, {}))
     # 검색어가 빈값일때
     elif not search_receive:
-        result = list(db.classes.find({'class_title': search_receive}, {}))
+        result = list(db.classes.find({'class_title': search_receive}))
     # 리턴
     return render_template('search.html', result=result, search_receive=search_receive).format(search_receive)
 
