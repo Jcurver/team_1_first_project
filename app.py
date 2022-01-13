@@ -68,10 +68,56 @@ def mypage():
     if (mytoken):
         login_status = True
         print("로그인 상태", "login_status", login_status)
+        payload = jwt.decode(mytoken, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({'username': payload['username']})
+        return render_template('mypage.html', login_status=login_status, user_info=user_info)
     else:
         login_status = False
         print("로그인 상태", "login_status", login_status)
-    return render_template('mypage.html', login_status=login_status)
+        return render_template('mypage.html', login_status=login_status)
+
+
+@app.route('/mypage/<username>/upload', methods=['GET'])
+def myUpload(username):
+    token_receive = request.cookies.get('mytoken')
+    print('token', token_receive)
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        # 전체 카드 리스트 찾기
+        classes = list(db.classes.find({'post_writer':username}))
+        # Id값을 string으로 변환
+        for post in classes:
+            post["_id"] = str(post["_id"])
+            post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
+            post["heart_by_me"] = bool(
+                db.likes.find_one({"post_id": post["_id"], "type": "heart", "username": payload['username']}))
+            post["bookmark_by_me"] = bool(
+                db.bookmarks.find_one({"post_id": post["_id"], "type": "bookmark", "username": payload['username']}))
+        # json값을 html에 전달
+        return jsonify({'result': 'success', 'msg': '성공!', 'classes': classes})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+@app.route('/mypage/<username>/bookmark', methods=['GET'])
+def myBookmark(username):
+    token_receive = request.cookies.get('mytoken')
+    print('token', token_receive)
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        # 전체 카드 리스트 찾기
+        classes = list(db.classes.find({}))
+        # Id값을 string으로 변환
+        for post in classes:
+            post["_id"] = str(post["_id"])
+            post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
+            post["heart_by_me"] = bool(
+                db.likes.find_one({"post_id": post["_id"], "type": "heart", "username": payload['username']}))
+            post["bookmark_by_me"] = bool(
+                db.bookmarks.find_one({"post_id": post["_id"], "type": "bookmark", "username": payload['username']}))
+        # json값을 html에 전달
+        return jsonify({'result': 'success', 'msg': '성공!', 'classes': classes})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
 
 # 1ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
