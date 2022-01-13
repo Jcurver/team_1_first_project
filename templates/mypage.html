@@ -12,7 +12,8 @@
 
     <!-- xeicon -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css"/>
-
+{#    <link rel="icon" type="image/x-icon" href="favicon.ico">#}
+{#    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">#}
     <!-- bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
@@ -173,7 +174,7 @@
             <div class="main-header-wrap">
                 <div class="main-header-container">
                     <a href="/">
-                        <h1 class="logo">Logo</h1>
+                        <h1 class="logo">Class202</h1>
                     </a>
                     <div class="header-search">
                         <form action="/search" method="GET">
@@ -306,41 +307,7 @@
             </div>
             <div class="main-content">
                 <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 g-4 myBookmark">
-                    {% for class in classes %}
-                        <div class="col">
-                            <div class="card h-100">
-                                <div class="img-wrap">
-                                    <a href="{{ class.class_url }}" class="img-wrap-a"
-                                       style="background-image: url('{{ class.class_image }}');">
-                                    </a>
-                                    <a href="" class="lecture-like">
-                                        {% if class.is_BookMarked %}
-                                            <i class="xi-heart"></i>
-                                        {% else %}
-                                            <i class="xi-heart-o"></i>
-                                        {% endif %}
-                                    </a>
-                                </div>
-                                <a href="" class="card-body">
-                                    <h5 class="card-name">{{ class.class_instructor }}</h5>
-                                    <h6 class="card-title">{{ class.title }}</h6>
-                                    <p class="card-text">
-                                        {{ class.class_desc }}
-                                    </p>
-                                    <p class="liked">
-                                        {% if class.is_Liked %}
-                                            <i class="xi-heart" style="color:pink"></i>
-                                        {% else %}
-                                            <i class="xi-heart"></i>
-                                        {% endif %}
-                                        <span>{{ class.like_number }}</span>
-                                    </p>
-                                    <p class="card-price">월 {{ class.class_price }}원</p>
-                                </a>
-                            </div>
-                        </div>
 
-                    {% endfor %}
                     <div class="col">
                         <div class="card h-100">
                             <div class="img-wrap">

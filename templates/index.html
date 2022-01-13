@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="../static/css/style.css"/>
     <link rel="stylesheet" href="../static/css/jh_style.css"/>
 
+{#    <link rel="icon" type="image/x-icon" href="favicon.ico">#}
+{#    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">#}
+
     <!-- xeicon -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css"/>
 
@@ -118,7 +121,7 @@
                 <div class="main-header-container">
                     {#          로고          #}
                     <a href="/">
-                        <h1 class="logo">Logo</h1>
+                        <h1 class="logo">Class202</h1>
                     </a>
                     {#          검색창          #}
                     <div class="header-search">
@@ -144,37 +147,7 @@
         <div class="content">
             <div class="main-content">
                 <div id="post-card" class="row row-cols-1 row-cols-lg-4 row-cols-md-3 g-4">
-                    <!-- {% for class in classes %}
-                        <div class="col" id="{{ class._id }}">
-                            <div class="card h-100">
-                                <div class="img-wrap">
-                                    <a href="{{ class.class_url }}" class="img-wrap-a"
-                                        style="background-image: url('{{ class.class_image }}');">
-                                    </a>
-                                    <a class="lecture-like" onclick="toggle_like()">
-                                        {% if class.toggle_like %}
-                                        <i class="xi-heart"></i>
-                                        {% else %}
-                                        <i class="xi-heart-o"></i>
-                                        {% endif %}
-                                    </a>
-                                </div>
-                                <a href="" class="card-body">
-                                    <h5 class="card-name">{{ class.class_instructor }}</h5>
-                                    <h6 class="card-title">{{ class.class_title }}</h6>
-                                    <p class="card-text">
-                                        {{ class.class_desc }}
-                                    </p>
-                                    <p class="liked">
-                                        <i class="xi-heart"></i>
-                                        <span>{{ class.like_count }}</span>
-                                    </p>
-                                    <p class="card-price">월 {{ class.class_price }}원</p>
-                                </a>
-                            </div>
-                        </div>
 
-                        {% endfor %} -->
                 </div>
             </div>
         </div>
