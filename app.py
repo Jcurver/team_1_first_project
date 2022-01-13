@@ -27,6 +27,7 @@ def mainpage():
 @app.route('/home', methods=['GET'])
 def listing():
     token_receive = request.cookies.get('mytoken')
+    print('token', token_receive)
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         # 전체 카드 리스트 찾기
@@ -40,7 +41,13 @@ def listing():
         # json값을 html에 전달
         return jsonify({'result': 'success','msg':'성공!','classes': classes})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
+        classes = list(db.classes.find({},{}))
+        print(classes)
+        for post in classes:
+            post["_id"] = str(post["_id"])
+            post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
+        return jsonify({'result': 'success','msg':'성공!','classes': classes})
+        # return redirect(url_for("home"))
     
 
 

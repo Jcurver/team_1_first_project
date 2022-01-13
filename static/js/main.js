@@ -68,3 +68,12 @@ function toggle_bookmark(post_id, type) {
         })
     }
 }
+function sign_out() {
+    $.removeCookie('mytoken', { path: '/' });
+    alert('로그아웃!')
+    window.location.href = "/"
+}
+
+function toggle_sign_up() {
+    $("#sign-up-box").toggleClass("is-hidden")
+}
