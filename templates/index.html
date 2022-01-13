@@ -30,7 +30,10 @@
             get_posts()
         });
 
-        function get_posts() {
+        function get_posts(username) {
+            if (username == undefined) {
+                username = ""
+            }
             $.ajax({
                 type: "GET",
                 url: "/home",
@@ -38,6 +41,7 @@
                 success: function (response) {
                     if (response["result"] == "success") {
                         let classes = response['classes']
+                        console.log(classes)
                         for (let i = 0; i < classes.length; i++) {
                             let post = classes[i];
                             let class_heart = post['heart_by_me'] ? "xi-heart" : "xi-heart-o";
@@ -77,15 +81,6 @@
                     }
                 }
             })
-        }
-        function sign_out() {
-            $.removeCookie('mytoken', { path: '/' });
-            alert('로그아웃!')
-            window.location.href = "/"
-        }
-
-        function toggle_sign_up() {
-            $("#sign-up-box").toggleClass("is-hidden")
         }
     </script>
 </head>
