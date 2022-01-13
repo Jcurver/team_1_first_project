@@ -84,7 +84,7 @@ def myUpload(username):
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         # 전체 카드 리스트 찾기
-        classes = list(db.classes.find({'post_writer':username}))
+        classes = list(db.classes.find({'post_writer': username}))
         # Id값을 string으로 변환
         for post in classes:
             post["_id"] = str(post["_id"])
@@ -97,6 +97,7 @@ def myUpload(username):
         return jsonify({'result': 'success', 'msg': '성공!', 'classes': classes})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
+
 
 @app.route('/mypage/<username>/bookmark', methods=['GET'])
 def myBookmark(username):
@@ -265,6 +266,12 @@ def posting():
 def search_result():
     # token 가져오기
     token_receive = request.cookies.get('mytoken')
+    if token_receive:
+        login_status = True
+        print("로그인 상태", "login_status", login_status)
+    else:
+        login_status = False
+        print("로그인 상태", "login_status", login_status)
     try:
         if token_receive:
             print('found token', token_receive)
@@ -283,7 +290,7 @@ def search_result():
                 for post in result:
                     # post["_id"] = str(post["_id"])
                     post["count_heart"] = db.likes.count_documents({"post_id": '_id', "type": "heart"})
-                    print('카운트',post["count_heart"])
+                    print('카운트', post["count_heart"])
                     post["heart_by_me"] = bool(
                         db.likes.find_one({"post_id": '_id', "type": "heart", "username": payload['username']}))
                     post["bookmark_by_me"] = bool(
@@ -292,7 +299,8 @@ def search_result():
             elif not search_receive:
                 result = list(db.classes.find({'class_title': search_receive}))
             # 리턴
-            return render_template('search.html',result=result, search_receive=search_receive)
+            return render_template('search.html', result=result, search_receive=search_receive,
+                                   login_status=login_status)
         else:
             search_receive = request.args.get('search_give')
 
@@ -305,14 +313,15 @@ def search_result():
                 for post in result:
                     # post["_id"] = str(post["_id"])
                     post["count_heart"] = db.likes.count_documents({"post_id": '_id', "type": "heart"})
-                    print('카운트',post["count_heart"])
+                    print('카운트', post["count_heart"])
             # 검색어가 빈값일때
             elif not search_receive:
                 result = list(db.classes.find({'class_title': search_receive}))
             # 리턴
-            return render_template('search.html',result=result, search_receive=search_receive)
+            return render_template('search.html', result=result, search_receive=search_receive)
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return render_template('/')
+
 
 # [좋아요 API]
 @app.route('/api/post/like', methods=['POST'])
