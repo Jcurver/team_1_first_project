@@ -36,7 +36,7 @@
   cursor: pointer;
 }
 .lecture-like i {
-  color: white;
+  color: pink;
   font-size: 30px;
 }
 
@@ -47,7 +47,7 @@
   cursor: pointer;
 }
 .lecture-bookmark i {
-  color: white;
+  color: skyblue;
   font-size: 30px;
 }
 
