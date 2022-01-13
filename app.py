@@ -242,6 +242,7 @@ def likes():
         return redirect(url_for("/"))
 
 @app.route('/api/post/bookmark', methods=['POST'])
+# [북마크 API]
 def bookmarks():
     token_receive = request.cookies.get('mytoken')
     try:
