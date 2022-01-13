@@ -31,6 +31,137 @@
             alert('로그아웃!')
             window.location.href = "/"
         }
+
+        let login_status = "{{ login_status }}"
+        console.log("로그인 상태", "login_status", login_status);
+
+        $(document).ready(function () {
+            // 로그인 된 상태라면
+            if (login_status == "True") {
+                // '로그인'버튼에 is-hidden이라는 클래스를 추가한다
+                console.log("로그인 버튼 감추기");
+                $("#login_button").addClass("is-hidden");
+            }
+            // 로그인 안 된 상태라면
+            else {
+                console.log("작성하기, 마이페이지, 로그아웃 버튼 감추기");
+                $("#post_write_button").addClass("is-hidden");
+                $("#mypage_button").addClass("is-hidden");
+                $("#signout_button").addClass("is-hidden");
+            }
+            myUpload('{{ user_info.username }}')
+            myBookmark('{{ user_info.username }}')
+        });
+
+        function myUpload(username) {
+            if (username == undefined) {
+                username = ""
+            }
+            $.ajax({
+                type: "GET",
+                url: `/mypage/${username}/upload`,
+                data: {},
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        let classes = response['classes']
+                        console.log(classes)
+                        for (let i = 0; i < classes.length; i++) {
+                            let post = classes[i];
+                            let class_heart = post['heart_by_me'] ? "xi-heart" : "xi-heart-o";
+                            let class_bookmark = post['bookmark_by_me'] ? "xi-bookmark" : "xi-bookmark-o";
+                            let count_heart = post['count_heart']
+
+                            let temp_html = `
+                                    <div class="col" id="${post["_id"]}">
+                                        <div class="card h-100">
+                                            <div class="img-wrap">
+                                                <a href="${post["class_url"]}" class="img-wrap-a"
+                                                    style="background-image: url('${post["class_image"]}');">
+                                                </a>
+                                                <a class="lecture-like" onclick="toggle_like('${post["_id"]}','heart')" aria-label="heart">
+                                                    <i class="${class_heart}"></i>
+                                                </a>
+                                                <a class="lecture-bookmark" onclick="toggle_bookmark('${post["_id"]}','bookmark')" aria-label="bookmark">
+                                                    <i class="${class_bookmark}"></i>
+                                                </a>
+                                            </div>
+                                            <a href="" class="card-body">
+                                                <h5 class="card-name">${post["class_instructor"]}</h5>
+                                                <h6 class="card-title">${post["class_title"]}</h6>
+                                                <p class="card-text">
+                                                    ${post["class_desc"]}
+                                                </p>
+                                                <p class="liked">
+                                                    <i class="xi-heart"></i>
+                                                    <span>${count_heart}</span>
+                                                </p>
+                                                <p class="card-price">월 ${post["class_price"]}원</p>
+                                            </a>
+                                        </div>
+                                    </div>`
+                            $('.myUpload').append(temp_html);
+                        }
+                    }
+                }
+            })
+        }
+
+        function myBookmark(username) {
+            if (username == undefined) {
+                username = ""
+            }
+            $.ajax({
+                type: "GET",
+                url: `/mypage/${username}/upload`,
+                data: {},
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        let classes = response['classes']
+                        console.log(classes)
+                        for (let i = 0; i < classes.length; i++) {
+                            let post = classes[i];
+
+                            if (post['bookmark_by_me']) {
+                                let class_heart = post['heart_by_me'] ? "xi-heart" : "xi-heart-o";
+                                let class_bookmark = post['bookmark_by_me'] ? "xi-bookmark" : "xi-bookmark-o";
+                                let count_heart = post['count_heart']
+
+                                let temp_html = `
+                                    <div class="col" id="${post["_id"]}">
+                                        <div class="card h-100">
+                                            <div class="img-wrap">
+                                                <a href="${post["class_url"]}" class="img-wrap-a"
+                                                    style="background-image: url('${post["class_image"]}');">
+                                                </a>
+                                                <a class="lecture-like" onclick="toggle_like('${post["_id"]}','heart')" aria-label="heart">
+                                                    <i class="${class_heart}"></i>
+                                                </a>
+                                                <a class="lecture-bookmark" onclick="toggle_bookmark('${post["_id"]}','bookmark')" aria-label="bookmark">
+                                                    <i class="${class_bookmark}"></i>
+                                                </a>
+                                            </div>
+                                            <a href="" class="card-body">
+                                                <h5 class="card-name">${post["class_instructor"]}</h5>
+                                                <h6 class="card-title">${post["class_title"]}</h6>
+                                                <p class="card-text">
+                                                    ${post["class_desc"]}
+                                                </p>
+                                                <p class="liked">
+                                                    <i class="xi-heart"></i>
+                                                    <span>${count_heart}</span>
+                                                </p>
+                                                <p class="card-price">월 ${post["class_price"]}원</p>
+                                            </a>
+                                        </div>
+                                    </div>`
+                                $('.myBookmark').append(temp_html);
+                            }
+                        }
+                    }
+                }
+            })
+        }
+
     </script>
 
 </head>
@@ -62,7 +193,7 @@
         </header>
         <div class="content">
             <div class="mp-title">
-                <h2>나의 닉네임 : [nickname]</h2>
+                <h2>나의 닉네임 : {{ user_info.username }}</h2>
             </div>
         </div>
         <div class="content">
@@ -70,7 +201,7 @@
                 <h2>내가 업로드한 클래스🔥</h2>
             </div>
             <div class="main-content">
-                <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 g-4">
+                <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 g-4 myUpload">
                     {% for class in classes %}
                         {% if login.nickname == classes.username %}
                             <div class="col" id="{{ class._id }}">
@@ -174,7 +305,7 @@
                 <h2>내가 북마크한 클래스🔥</h2>
             </div>
             <div class="main-content">
-                <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 g-4">
+                <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 g-4 myBookmark">
                     {% for class in classes %}
                         <div class="col">
                             <div class="card h-100">
