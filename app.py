@@ -20,7 +20,16 @@ db = client.db_hanghae99_miniproject1
 @app.route('/')
 def mainpage():
     # 메인페이지 랜더링
-    return render_template('index.html')
+    mytoken = request.cookies.get('mytoken')
+    # 토큰이 있는 경우 (로그인 된 경우)
+    if (mytoken):
+        login_status = True
+        print("로그인 상태", "login_status", login_status)
+    else:
+        login_status = False
+        print("로그인 상태", "login_status", login_status)
+    return render_template('index.html', login_status=login_status)
+
 
 # 1/12일 추가 -Jhmael
 # 카드 리스트 불러오기
@@ -36,24 +45,33 @@ def listing():
         for post in classes:
             post["_id"] = str(post["_id"])
             post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
-            post["heart_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "type": "heart", "username": payload['username']}))
-            post["bookmark_by_me"] = bool(db.bookmarks.find_one({"post_id": post["_id"], "type": "bookmark", "username": payload['username']}))
+            post["heart_by_me"] = bool(
+                db.likes.find_one({"post_id": post["_id"], "type": "heart", "username": payload['username']}))
+            post["bookmark_by_me"] = bool(
+                db.bookmarks.find_one({"post_id": post["_id"], "type": "bookmark", "username": payload['username']}))
         # json값을 html에 전달
-        return jsonify({'result': 'success','msg':'성공!','classes': classes})
+        return jsonify({'result': 'success', 'msg': '성공!', 'classes': classes})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         classes = list(db.classes.find({}))
         print(classes)
         for post in classes:
             post["_id"] = str(post["_id"])
             post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
-        return jsonify({'result': 'success','msg':'성공!','classes': classes})
+        return jsonify({'result': 'success', 'msg': '성공!', 'classes': classes})
         # return redirect(url_for("home"))
-    
 
 
 @app.route('/mypage')
 def mypage():
-    return render_template('mypage.html')
+    mytoken = request.cookies.get('mytoken')
+    # 토큰이 있는 경우 (로그인 된 경우)
+    if (mytoken):
+        login_status = True
+        print("로그인 상태", "login_status", login_status)
+    else:
+        login_status = False
+        print("로그인 상태", "login_status", login_status)
+    return render_template('mypage.html', login_status=login_status)
 
 
 # 1ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -212,16 +230,17 @@ def search_result():
     # 리턴
     return render_template('search.html', result=result, search_receive=search_receive).format(search_receive)
 
+
 # [좋아요 API]
 @app.route('/api/post/like', methods=['POST'])
 def likes():
     token_receive = request.cookies.get('mytoken')
     try:
         if token_receive:
-            print('found token',token_receive)
+            print('found token', token_receive)
             payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
             user_info = db.users.find_one({"username": payload["username"]})
-            print('user_info',user_info)
+            print('user_info', user_info)
             post_id_receive = request.form["post_id_give"]
             type_receive = request.form["type_give"]
             action_receive = request.form["action_give"]
@@ -241,16 +260,17 @@ def likes():
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("/"))
 
+
 @app.route('/api/post/bookmark', methods=['POST'])
 # [북마크 API]
 def bookmarks():
     token_receive = request.cookies.get('mytoken')
     try:
         if token_receive:
-            print('found token',token_receive)
+            print('found token', token_receive)
             payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
             user_info = db.users.find_one({"username": payload["username"]})
-            print('user_info',user_info)
+            print('user_info', user_info)
             post_id_receive = request.form["post_id_give"]
             type_receive = request.form["type_give"]
             action_receive = request.form["action_give"]
@@ -269,7 +289,7 @@ def bookmarks():
             # return jsonify({"result": "success", 'msg': 'updated'})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("/"))
-        
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
