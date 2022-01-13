@@ -25,7 +25,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
     <!-- js -->
+    <script>
+        $(document).ready(function () {
+            $('#hs-input').submit(function () {
+                let form = $(this);
+                let url = form.attr('action');
 
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: form.serialize(),
+                    success: function (response, result) {
+                        console.log(result)
+                        let class_heart = result['heart_by_me'] ? "xi-heart" : "xi-heart-o";
+                        let class_bookmark = result['bookmark_by_me'] ? "xi-bookmark" : "xi-bookmark-o";
+                        let count_heart = result['count_heart']
+                    }
+                })
+            })
+        })
+    </script>
 </head>
 
 <body>
@@ -67,13 +86,21 @@
                                     <a href="{{ class.class_url }}" class="img-wrap-a"
                                         style="background-image: url('{{ class.class_image }}');">
                                     </a>
-                                    <a href="" class="lecture-like">
-                                        {% if class.is_BookMarked %}
+                                    <a class="lecture-like" onclick="toggle_like('{{class._id}}','heart')"
+                                        aria-label="heart">
+                                        {% if class.heart_by_me == 'True' %}
                                         <i class="xi-heart"></i>
                                         {% else %}
                                         <i class="xi-heart-o"></i>
                                         {% endif %}
                                     </a>
+                                    <a class="lecture-bookmark" onclick="toggle_bookmark('{{class._id}}','bookmark')"
+                                        aria-label="bookmark">
+                                        {% if class.bookmark_by_me == 'True' %}
+                                        <i class="xi-bookmark"></i>
+                                        {% else %}
+                                        <i class="xi-bookmark-o"></i>
+                                        {% endif %}
                                 </div>
                                 <a href="" class="card-body">
                                     <h5 class="card-name">{{ class.class_instructor }}</h5>
@@ -82,12 +109,8 @@
                                         {{ class.class_desc }}
                                     </p>
                                     <p class="liked">
-                                        {% if class.is_Liked %}
-                                        <i class="xi-heart" style="color:pink"></i>
-                                        {% else %}
                                         <i class="xi-heart"></i>
-                                        {% endif %}
-                                        <span>{{ class.like_number }}</span>
+                                        <span>{{ class.count_heart }}</span>
                                     </p>
                                     <p class="card-price">월 {{ class.class_price }}원</p>
                                 </a>

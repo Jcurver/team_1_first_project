@@ -263,19 +263,56 @@ def posting():
 # [검색 API]
 @app.route('/search', methods=['GET'])
 def search_result():
-    # 검색어 가져오기
-    search_receive = request.args.get('search_give')
+    # token 가져오기
+    token_receive = request.cookies.get('mytoken')
+    try:
+        if token_receive:
+            print('found token', token_receive)
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+            user_info = db.users.find_one({"username": payload["username"]})
+            print(user_info)
+            # 검색어 가져오기
+            search_receive = request.args.get('search_give')
 
-    # 검색어에 맞는 클래스 데이터 리스트 찾기
-    # 검색어에 값이 있을때
-    if search_receive:
-        result = list(db.classes.find({'class_title': {'$regex': search_receive, '$options': 'i'}}, {}))
-    # 검색어가 빈값일때
-    elif not search_receive:
-        result = list(db.classes.find({'class_title': search_receive}))
-    # 리턴
-    return render_template('search.html', result=result, search_receive=search_receive).format(search_receive)
+            # 검색어에 맞는 클래스 데이터 리스트 찾기
+            # 검색어에 값이 있을때
+            if search_receive:
+                result = list(db.classes.find({'class_title': {'$regex': search_receive, '$options': 'i'}}, {}))
+                print(result)
+                # classes = list(db.classes.find({}))
+                for post in result:
+                    # post["_id"] = str(post["_id"])
+                    post["count_heart"] = db.likes.count_documents({"post_id": '_id', "type": "heart"})
+                    print('카운트',post["count_heart"])
+                    post["heart_by_me"] = bool(
+                        db.likes.find_one({"post_id": '_id', "type": "heart", "username": payload['username']}))
+                    post["bookmark_by_me"] = bool(
+                        db.bookmarks.find_one({"post_id": '_id', "type": "bookmark", "username": payload['username']}))
+            # 검색어가 빈값일때
+            elif not search_receive:
+                result = list(db.classes.find({'class_title': search_receive}))
+            # 리턴
+            return render_template('search.html',result=result, search_receive=search_receive)
+        else:
+            search_receive = request.args.get('search_give')
 
+            # 검색어에 맞는 클래스 데이터 리스트 찾기
+            # 검색어에 값이 있을때
+            if search_receive:
+                result = list(db.classes.find({'class_title': {'$regex': search_receive, '$options': 'i'}}, {}))
+                print(result)
+                # classes = list(db.classes.find({}))
+                for post in result:
+                    # post["_id"] = str(post["_id"])
+                    post["count_heart"] = db.likes.count_documents({"post_id": '_id', "type": "heart"})
+                    print('카운트',post["count_heart"])
+            # 검색어가 빈값일때
+            elif not search_receive:
+                result = list(db.classes.find({'class_title': search_receive}))
+            # 리턴
+            return render_template('search.html',result=result, search_receive=search_receive)
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return render_template('/')
 
 # [좋아요 API]
 @app.route('/api/post/like', methods=['POST'])
