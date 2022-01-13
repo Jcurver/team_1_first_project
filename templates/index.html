@@ -78,6 +78,15 @@
                 }
             })
         }
+        function sign_out() {
+            $.removeCookie('mytoken', { path: '/' });
+            alert('로그아웃!')
+            window.location.href = "/"
+        }
+
+        function toggle_sign_up() {
+            $("#sign-up-box").toggleClass("is-hidden")
+        }
     </script>
 </head>
 
@@ -101,10 +110,16 @@
                             </form>
                         </div>
                         <div class="header-br">
+                            <a href="/post_write" class="btn01 is-hidden">작성하기</a>
+                            <a href="/mypage" class="btn02 is-hidden">마이페이지</a>
+                            <a href="/login" class="btn02" onclick="toggle_sign_up()">로그인</a>
+                            <a href="/" class="btn02" onclick="sign_out()">로그아웃</a>
+                        </div>
+                        <!-- <div class="header-br">
                             <a href="/post_write" class="btn01">작성하기</a>
                             <a href="/mypage" class="btn02">마이페이지</a>
                             <a href="/login" class="btn02">로그인</a>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </header>
