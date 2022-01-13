@@ -33,13 +33,13 @@
     <!-- js -->
     <script>
         let login_status = "{{ login_status }}"
-        console.log("로그인 상태", "login_status", login_status);
+        {#console.log("로그인 상태", "login_status", login_status);#}
 
         $(document).ready(function () {
             // 로그인 된 상태라면
             if (login_status == "True") {
                 // '로그인'버튼에 is-hidden이라는 클래스를 추가한다
-                console.log("로그인 버튼 감추기");
+                {#console.log("로그인 버튼 감추기");#}
                 $("#login_button").addClass("is-hidden");
             }
             // 로그인 안 된 상태라면
@@ -59,7 +59,8 @@
                     url: url,
                     data: form.serialize(),
                     success: function (response, result) {
-                        console.log(result)
+                        {#console.log(result);#}
+                        {#console.log(response);#}
                         let class_heart = result['heart_by_me'] ? "xi-heart" : "xi-heart-o";
                         let class_bookmark = result['bookmark_by_me'] ? "xi-bookmark" : "xi-bookmark-o";
                         let count_heart = result['count_heart']

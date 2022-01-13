@@ -284,7 +284,7 @@ def search_result():
             # 검색어에 맞는 클래스 데이터 리스트 찾기
             # 검색어에 값이 있을때
             if search_receive:
-                result = list(db.classes.find({'class_title': {'$regex': search_receive, '$options': 'i'}}, {}))
+                result = list(db.classes.find({'class_title': {'$regex': search_receive, '$options': 'i'}}))
                 print(result)
                 # classes = list(db.classes.find({}))
                 for post in result:
@@ -307,7 +307,7 @@ def search_result():
             # 검색어에 맞는 클래스 데이터 리스트 찾기
             # 검색어에 값이 있을때
             if search_receive:
-                result = list(db.classes.find({'class_title': {'$regex': search_receive, '$options': 'i'}}, {}))
+                result = list(db.classes.find({'class_title': {'$regex': search_receive, '$options': 'i'}}))
                 print(result)
                 # classes = list(db.classes.find({}))
                 for post in result:
